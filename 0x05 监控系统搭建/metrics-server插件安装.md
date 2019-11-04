@@ -1,13 +1,13 @@
 ## 1.下载源文件
 
-```
+```sh
 git clone https://github.com/kubernetes-incubator/metrics-server.git
 cd metrics-server/deploy/1.8+/
 ll
 ```
 
 ## 2.修改其中的metrics-server-deployment.yaml文件（用红色标亮处）
-```
+```yaml
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -52,7 +52,7 @@ spec:
 ```
 
 ## 3.应用设置
-```
+```sh
 kubectl apply -f .
 
 # 查看集群安装情况
