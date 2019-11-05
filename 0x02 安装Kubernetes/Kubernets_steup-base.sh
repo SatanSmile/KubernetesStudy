@@ -46,7 +46,7 @@ sudo apt-get upgrade -y
 sudo apt-get autoremove
 
 echo "安装 kubelet kubeadm kubectl..."
-kube_version=1.15.4-00
+kube_version=1.16.2-00
 sudo apt-get install -y kubelet=$kube_version kubeadm=$kube_version kubectl=$kube_version
 sudo apt-mark hold kubelet kubeadm kubectl
 
