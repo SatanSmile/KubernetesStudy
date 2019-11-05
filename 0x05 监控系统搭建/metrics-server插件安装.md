@@ -16,10 +16,9 @@ containers:
 - name: metrics-server
   image: registry.cn-hangzhou.aliyuncs.com/google_containers/metrics-server-amd64:v0.3.5 # 变更镜像拉取的位置
   imagePullPolicy: IfNotPresent  # 修改拉取路径
-  command:    # 添加这个节点
-      - /metrics-server
-      - --kubelet-preferred-address-types=InternalIP
-      - --kubelet-insecure-tls
+  args:
+  - --kubelet-insecure-tls
+  - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
   volumeMounts:
   - name: tmp-dir
     mountPath: /tmp
