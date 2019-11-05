@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-db
+spec:
+  # 扩缩容设置
+  replicas: 1
+  # 容器创建最小间隔时间
+  minReadySeconds: 5
+  # 容器扩缩容规则
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # 每次最多创建几个副本
+      maxSurge: 1
+      # 每次最多销毁几个副本
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: mongo-db
+  template:
+    metadata:
+      labels:
+        app: mongo-db
+    spec:
+      containers:
+      - name: mongo-db
+        image: mongo:latest
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: mongo-auth
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: mongo-auth
+        # 资源申请
+        resources:
+          # 最大限制资源
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          # 申请资源
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongo-data
+          mountPath: /data/db
+      # hostPath 方式存储，最大缺点是pod发生飘逸导致数据清空
+      volumes:
+      - name: mongo-data
+        hostPath:
+          path:  /home/bob/data/mongo-data

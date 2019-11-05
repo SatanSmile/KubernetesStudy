@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-57
+spec:
+  # 扩缩容设置
+  replicas: 1
+  # 容器创建最小间隔时间
+  minReadySeconds: 5
+  # 容器扩缩容规则
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # 每次最多创建几个副本
+      maxSurge: 1
+      # 每次最多销毁几个副本
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: mysql-57
+  template:
+    metadata:
+      labels:
+        app: mysql-57
+    spec:
+      containers:
+      - name: mysql-57
+        image: mysql:5.7
+        args:
+          - "--ignore-db-dir=lost+found"
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mysql-root-password
+              name: sk-mysql-57
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mysql-password
+              name: sk-mysql-57
+        - name: MYSQL_USER
+          value: jxqc
+        # 资源申请
+        resources:
+          # 最大限制资源
+          limits:
+            cpu: "600m"
+            memory: "512Mi"
+          # 申请资源
+          requests:
+            cpu: "300m"
+            memory: "256Mi"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-data
+          mountPath:  /var/lib/mysql
+      # hostPath 方式存储，最大缺点是pod发生飘逸导致数据清空
+      volumes:
+      - name: mysql-data
+        hostPath:
+          path:  /home/bob/data/mysql-data-57
