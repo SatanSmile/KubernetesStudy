@@ -56,7 +56,7 @@ sudo apt-get install -y docker.io
 # 设置Docker配置
 sudo tee /etc/docker/daemon.json <<'EOF'
 {
-  "registry-mirrors": ["https://registry.docker-cn.com"],
+  "registry-mirrors": ["https://ev6jtc4x.mirror.aliyuncs.com"],
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
   "log-opts": {

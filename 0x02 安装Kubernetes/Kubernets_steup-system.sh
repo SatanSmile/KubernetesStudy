@@ -1,15 +1,15 @@
 #!/bin/bash
 # 拉取镜像
 echo "拉取镜像..."
-kube_version=v1.15.4
+kube_version=v1.16.2
 images=(
   kube-apiserver:$kube_version
   kube-controller-manager:$kube_version
   kube-scheduler:$kube_version
   kube-proxy:$kube_version
   pause:3.1
-  etcd:3.3.10
-  coredns:1.3.2
+  etcd:3.3.15-0
+  coredns:1.6.2
 )
 
 for imageName in ${images[@]} ; do
