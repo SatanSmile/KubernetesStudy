@@ -1,5 +1,9 @@
 #!/bin/bash
 # 设置系统参数
+
+## 设置主机名
+hostnamectl set-hostname=k8s.master
+
 ## 关闭SWAP
 echo "关闭SWAP..."
 sudo sed -i "s/\/swap/#\/swap/g" /etc/fstab

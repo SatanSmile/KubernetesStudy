@@ -22,7 +22,8 @@ done
 # 如果不用上面的函数替换可以添加参数 --image-repository=registry.cn-shenzhen.aliyuncs.com/shuhui
 
 echo "初始化集群..."
-sudo kubeadm init --kubernetes-version=$kube_version --apiserver-advertise-address 192.168.10.165 --pod-network-cidr=10.244.0.0/16
+HOST_IP=$(ip a | grep inet | grep -v inet6 | grep -v 127 | grep -v 172. | sed 's/^[ \t]*//g' | cut -d ' ' -f2 | cut -d '/' -f1 )
+sudo kubeadm init --kubernetes-version=$kube_version --apiserver-advertise-address=$HOST_IP --pod-network-cidr=10.244.0.0/16
 
 #------------------------------------------------------------------------------
 #Your Kubernetes control-plane has initialized successfully!
